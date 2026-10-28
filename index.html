@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança Digital 60+ — Guia Prático</title>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --primary-dark: #123851;
+            --secondary: #2980b9;
+            --accent: #f39c12;
+            --success: #27ae60;
+            --danger: #c0392b;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            font-size: 19px;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header .tag {
+            background-color: var(--accent);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 20px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 750px;
+            margin: 25px auto;
+            padding: 0 16px;
+        }
+
+        .secao {
+            background: white;
+            border-radius: 14px;
+            padding: 26px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            border-left: 8px solid var(--primary);
+        }
+
+        .secao h2 {
+            font-size: 26px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .destaque-alerta {
+            background-color: #fef2f2;
+            border-left: 5px solid var(--danger);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            color: #7f1d1d;
+            font-weight: 500;
+        }
+
+        .destaque-seguro {
+            background-color: #f0fdf4;
+            border-left: 5px solid var(--success);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            color: #14532d;
+            font-weight: 500;
+        }
+
+        .comparativo {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin: 18px 0;
+        }
+
+        .card-golpe, .card-certo {
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .card-golpe {
+            background-color: #fff1f2;
+            border: 2px solid #fecdd3;
+        }
+
+        .card-golpe strong {
+            color: var(--danger);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 20px;
+        }
+
+        .card-certo {
+            background-color: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        .card-certo strong {
+            color: var(--success);
+            display: block;
+            margin-bottom: 6px;
+            font-size: 20px;
+        }
+
+        /* Quiz Interativo */
+        .quiz-box {
+            background: #eaf2f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 2px solid #cbd5e1;
+        }
+
+        .quiz-pergunta {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-dark);
+            margin-bottom: 14px;
+        }
+
+        .btn-opcao {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: white;
+            border: 2px solid #94a3b8;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-opcao:hover {
+            border-color: var(--primary);
+            background: #f1f5f9;
+        }
+
+        .resultado-quiz {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+
+        /* Botão de Emergência */
+        .btn-emergencia {
+            display: block;
+            background: var(--danger);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-muted);
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="tag">Projeto de Extensão Universitária</span>
+        <h1>Segurança Digital 60+</h1>
+        <p>Aprenda a navegar com tranquilidade, proteção e autonomia no celular.</p>
+    </header>
+
+    <main>
+        <!-- Módulo 1 -->
+        <section class="secao">
+            <h2>📱 1. Golpe do "Novo Número" no WhatsApp</h2>
+            <p>Um criminoso envia mensagem fingindo ser seu filho, filha ou neto, usando uma foto da pessoa mas com um <strong>número de telefone novo e desconhecido</strong>.</p>
+            
+            <div class="comparativo">
+                <div class="card-golpe">
+                    <strong>❌ O que o golpista diz:</strong>
+                    "Oi mãe, troquei de número, anota o novo. Tô precisando pagar uma conta urgente mas meu limite excedeu, transfere no Pix pra mim?"
+                </div>
+                <div class="card-certo">
+                    <strong>✅ Como você deve agir:</strong>
+                    <strong>Nunca faça Pix ou transferência!</strong> Ligue para o número antigo do seu parente ou faça uma chamada de vídeo para confirmar o rosto da pessoa.
+                </div>
+            </div>
+        </section>
+
+        <!-- Módulo 2 -->
+        <section class="secao">
+            <h2>💰 2. Falsa Ligação do Banco</h2>
+            <p>Alguém telefona dizendo ser da "central de segurança" do seu banco avisando sobre uma suposta compra de alto valor ou invasão na sua conta.</p>
+
+            <div class="destaque-alerta">
+                ⚠️ <strong>Atenção:</strong> O banco <strong>NUNCA</strong> liga pedindo senha, código de SMS ou solicitando que você faça Pix para cancelar uma transação. Se receber essa ligação, <strong>desligue imediatamente!</strong>
+            </div>
+        </section>
+
+        <!-- Módulo 3 -->
+        <section class="secao">
+            <h2>🔗 3. Links e Sorteios Falsos</h2>
+            <p>Mensagens prometendo brindes de farmácias, cestas básicas gratuitas ou dinheiro esquecido pelo Governo são quase sempre armadilhas.</p>
+
+            <div class="destaque-seguro">
+                💡 <strong>Dica de ouro:</strong> Em caso de dúvida, <strong>NÃO CLIQUE NO LINK</strong>. Pergunte a alguém de sua confiança ou simplesmente apague a mensagem.
+            </div>
+        </section>
+
+        <!-- Módulo 4: Teste Rápido -->
+        <section class="secao">
+            <h2>🎯 Teste Rápido: O que você faria?</h2>
+            <div class="quiz-box">
+                <div class="quiz-pergunta">
+                    Você recebe uma mensagem de um número desconhecido no WhatsApp com a foto do seu sobrinho pedindo R$ 300,00 emprestado urgente. Qual é a atitude correta?
+                </div>
+
+                <button class="btn-opcao" onclick="responder(false, this)">A) Enviar o Pix na hora para não deixar ele passar aperto.</button>
+                <button class="btn-opcao" onclick="responder(true, this)">B) Ligar para o número habitual dele ou falar pessoalmente antes de transferir qualquer valor.</button>
+                <button class="btn-opcao" onclick="responder(false, this)">C) Pedir para ele mandar um comprovante por mensagem.</button>
+
+                <div id="resultado" class="resultado-quiz"></div>
+            </div>
+        </section>
+
+        <!-- Seção de Emergência -->
+        <section class="secao">
+            <h2>🚨 Precisando de Ajuda?</h2>
+            <p>Se desconfiar de um golpe ou já tiver realizado alguma transferência indevida:</p>
+            <ol style="margin: 15px 0 15px 25px; line-height: 1.8;">
+                <li>Ligue para a central oficial do seu banco e peça o bloqueio preventivo do Pix.</li>
+                <li>Registre um Boletim de Ocorrência na Delegacia Eletrônica da Polícia Civil.</li>
+                <li>Converse com familiares ou pessoas de sua confiança. Não guarde o fato por vergonha!</li>
+            </ol>
+            <a href="tel:100" class="btn-emergencia">📞 Disque 100 — Direitos Humanos</a>
+        </section>
+    </main>
+
+    <footer>
+        Ciência da Computação | Projeto de Extensão Universitária em Segurança Digital
+    </footer>
+
+    <script>
+        function responder(acertou, botao) {
+            const resultado = document.getElementById('resultado');
+            resultado.style.display = 'block';
+
+            if (acertou) {
+                resultado.style.backgroundColor = '#dcfce7';
+                resultado.style.color = '#15803d';
+                resultado.innerHTML = "🎉 PARABÉNS, RESPOSTA CORRETA! Sempre confirme a identidade da pessoa por telefone direto antes de qualquer transação financeira.";
+            } else {
+                resultado.style.backgroundColor = '#fee2e2';
+                resultado.style.color = '#991b1b';
+                resultado.innerHTML = "⚠️ CUIDADO! Nunca envie dinheiro para números novos sem falar com o parente por telefone antes. Isso quase sempre é golpe!";
+            }
+        }
+    </script>
+</body>
+</html>
