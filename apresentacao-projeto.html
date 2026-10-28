@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Segurança Digital 60+ — Apresentação Interativa</title>
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #f59e0b;
+            --accent-glow: rgba(245, 158, 11, 0.35);
+            --bg-dark: #090d16;
+            --surface-glass: rgba(18, 24, 38, 0.75);
+            --card-glass: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-light: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gradient-blue: linear-gradient(135deg, #38bdf8 0%, #2563eb 60%, #1d4ed8 100%);
+            --gradient-orange: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 15% 15%, #172554 0%, var(--bg-dark) 55%),
+                        radial-gradient(circle at 85% 85%, #0f172a 0%, var(--bg-dark) 60%);
+            min-height: 100vh;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Moldura do Slide com Glassmorphism */
+        .stage-container {
+            width: 100%;
+            max-width: 1020px;
+            aspect-ratio: 16 / 9;
+            background: var(--surface-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(37, 99, 235, 0.15);
+            padding: 40px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Barra de Progresso no Topo */
+        .progress-bar-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 16.66%;
+            background: var(--gradient-blue);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 12px #38bdf8;
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 4px;
+        }
+
+        .slide-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.12);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .slide-counter {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            letter-spacing: 0.5px;
+        }
+
+        /* Área de Conteúdo */
+        .slide-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 16px 0;
+            animation: fadeIn 0.45s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h1.title-hero {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 14px;
+        }
+
+        h2.title-slide {
+            font-size: 30px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        p.lead-text {
+            font-size: 18px;
+            color: var(--text-dim);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Grids e Cards Modernos */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .card-interactive {
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-interactive:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .stat-huge {
+            font-size: 34px;
+            font-weight: 800;
+            color: #38bdf8;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+            line-height: 1.45;
+        }
+
+        /* Botão Interativo tipo Pill / Badges */
+        .badge-ods {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 30px;
+            margin-right: 10px;
+        }
+
+        /* Widget Interativo de Simulação no Slide 4 */
+        .simulador-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-top: 10px;
+        }
+
+        .sim-pergunta {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+        }
+
+        .sim-botoes {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-sim {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-sim:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        .sim-feedback {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Rodapé do Slide */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .author-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        /* Controles Modernos Inferiores */
+        .toolbar {
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-action {
+            background: var(--card-glass);
+            border: 1px solid var(--card-border);
+            color: var(--text-light);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-action.primary {
+            background: var(--gradient-blue);
+            border: none;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-action.primary:hover {
+            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .dots-indicator {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            width: 28px;
+            border-radius: 10px;
+            background: #38bdf8;
+            box-shadow: 0 0 10px #38bdf8;
+        }
+
+        /* Modo de Impressão A4 Limpo */
+        @media print {
+            body {
+                background: white !important;
+                color: #0f172a !important;
+                padding: 0;
+            }
+            .toolbar, .progress-bar-container {
+                display: none !important;
+            }
+            .stage-container {
+                box-shadow: none;
+                border: 1px solid #cbd5e1;
+                background: white;
+                color: #0f172a;
+                width: 100%;
+                min-height: 100vh;
+                page-break-after: always;
+            }
+            h1.title-hero, h2.title-slide {
+                color: #1e3a8a !important;
+                -webkit-text-fill-color: initial !important;
+            }
+            .card-interactive {
+                border: 1px solid #e2e8f0;
+                background: #f8fafc;
+            }
+            .card-title, .card-desc {
+                color: #1e293b !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stage-container" id="slideStage">
+        <!-- Linha de progresso no topo -->
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Cabeçalho do Slide -->
+        <div class="slide-header">
+            <div class="slide-tag" id="slideTag">
+                <i data-lucide="sparkles" style="width: 15px; height: 15px;"></i>
+                <span id="slideTagText">Projeto Extensionista</span>
+            </div>
+            <div class="slide-counter" id="slideCounter">Slide 1 de 6</div>
+        </div>
+
+        <!-- Corpo Principal do Slide -->
+        <div class="slide-body" id="slideBody">
+            <!-- Injetado dinamicamente via JS -->
+        </div>
+
+        <!-- Rodapé do Slide -->
+        <div class="slide-footer">
+            <div class="author-box">
+                <i data-lucide="user-check" style="width: 16px; height: 16px; color: #38bdf8;"></i>
+                <span>Discente: <strong>Guilherme Assunção</strong> | Ciência da Computação</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <span class="badge-ods" style="margin: 0; font-size: 11px;">ODS 4: Educação</span>
+                <span class="badge-ods" style="margin: 0; font-size: 11px;">ODS 10: Desigualdades</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Ferramentas / Controles -->
+    <div class="toolbar">
+        <button class="btn-action" id="btnPrev" onclick="navigate(-1)">
+            <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+            Anterior
+        </button>
+
+        <div class="dots-indicator" id="dotsContainer"></div>
+
+        <button class="btn-action primary" id="btnNext" onclick="navigate(1)">
+            Próximo
+            <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+        </button>
+
+        <button class="btn-action" onclick="window.print()" title="Salvar em PDF">
+            <i data-lucide="printer" style="width: 18px; height: 18px;"></i>
+            Exportar PDF
+        </button>
+    </div>
+
+    <script>
+        const deck = [
+            // Slide 1: Abertura Hero
+            {
+                tag: "Abertura Oficial",
+                icon: "shield-check",
+                body: `
+                    <div style="text-align: center; padding: 20px 0;">
+                        <div style="display: inline-flex; gap: 8px; margin-bottom: 16px;">
+                            <span class="badge-ods"><i data-lucide="graduation-cap" style="width: 14px; height: 14px;"></i> Extensão Universitária</span>
+                            <span class="badge-ods"><i data-lucide="heart-handshake" style="width: 14px; height: 14px;"></i> Impacto Social Real</span>
+                        </div>
+                        <h1 class="title-hero">Segurança Digital para a Terceira Idade</h1>
+                        <p class="lead-text" style="max-width: 720px; margin: 0 auto 28px auto;">
+                            Desenvolvimento de Cartilha Digital Acessível e Mediação Comunitária na Prevenção de Fraudes Virtuais
+                        </p>
+                        <div style="display: flex; justify-content: center; gap: 14px;">
+                            <a href="https://guilhermeeassuncao.github.io/seguranca-digital-60/" target="_blank" class="btn-action primary" style="text-decoration: none;">
+                                <i data-lucide="external-link" style="width: 18px; height: 18px;"></i>
+                                Acessar Cartilha Online
+                            </a>
+                            <button class="btn-action" onclick="lancarConfete()">
+                                <i data-lucide="party-popper" style="width: 18px; height: 18px;"></i>
+                                Celebrar Projeto
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 2: Diagnóstico
+            {
+                tag: "Diagnóstico Empírico",
+                icon: "activity",
+                body: `
+                    <h2 class="title-slide"><i data-lucide="bar-chart-3" style="color: #38bdf8;"></i> Diagnóstico de Campo e Desafio Central</h2>
+                    <p class="lead-text">Pesquisa presencial realizada com 10 participantes da comunidade (idosos e familiares/cuidadores):</p>
+                    <div class="grid-4">
+                        <div class="card-interactive">
+                            <div class="stat-huge">90%</div>
+                            <div class="card-title"><i data-lucide="message-square" style="width: 16px; color:#22c55e;"></i> WhatsApp</div>
+                            <div class="card-desc">Canal universal de comunicação, sendo o vetor primordial para tentativas de fraude.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="stat-huge">50%</div>
+                            <div class="card-title"><i data-lucide="credit-card" style="width: 16px; color:#f59e0b;"></i> Apps Bancários</div>
+                            <div class="card-desc">Movimentam finanças pelo aparelho, gerando vulnerabilidade direta à aposentadoria.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="stat-huge" style="color: #ef4444;">70%</div>
+                            <div class="card-title"><i data-lucide="alert-triangle" style="width: 16px; color:#ef4444;"></i> Alvos de Golpe</div>
+                            <div class="card-desc">Frequência crítica de ameaças, com <strong>20% de vítimas reais</strong> na amostra.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="stat-huge" style="color: #eab308;">40%</div>
+                            <div class="card-title"><i data-lucide="mouse-pointer-click" style="width: 16px; color:#eab308;"></i> Ações de Risco</div>
+                            <div class="card-desc">Clicam por curiosidade ou não sabem agir diante de mensagens suspeitas.</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px; background: rgba(56, 189, 248, 0.08); border-left: 4px solid #38bdf8; padding: 12px 18px; border-radius: 8px; font-size: 15px; color: #e2e8f0;">
+                        <strong>Problema Definido:</strong> Alta vulnerabilidade de idosos a fraudes virtuais devido à ausência de letramento digital prático e acolhedor.
+                    </div>
+                `
+            },
+
+            // Slide 3: Teoria e ODS
+            {
+                tag: "Fundamentação & ODS",
+                icon: "book-open",
+                body: `
+                    <h2 class="title-slide"><i data-lucide="globe-2" style="color: #38bdf8;"></i> Alinhamento Conceitual & Compromisso Social</h2>
+                    <p class="lead-text">A Ciência da Computação a serviço da justiça social, dialogando com teoria crítica e a Agenda 2030:</p>
+                    <div class="grid-2">
+                        <div class="card-interactive">
+                            <div class="card-title" style="color: #93c5fd;"><i data-lucide="brain" style="width: 18px;"></i> Antonio Gramsci — Emancipação pelo Saber</div>
+                            <div class="card-desc">O conhecimento técnico não pode ser privilégio. Sem domínio dos princípios de segurança, a terceira idade é empurrada para a subalternidade digital. A extensão rompe essa barreira.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="card-title" style="color: #93c5fd;"><i data-lucide="cpu" style="width: 18px;"></i> Theodor Adorno — Técnica e Alienação</div>
+                            <div class="card-desc">A imposição forçada de serviços bancários eletrônicos sem pedagogia prévia gera angústia e sensação de incapacidade. O projeto resgata o sujeito crítico frente à máquina.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="card-title" style="color: #fbbf24;"><i data-lucide="award" style="width: 18px;"></i> ODS 4 — Educação Inclusiva de Qualidade</div>
+                            <div class="card-desc">Garantia de oportunidades de aprendizado ao longo de toda a vida, ajustadas ao ritmo, limitações sensoriais e experiências do idoso.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="card-title" style="color: #fbbf24;"><i data-lucide="scale" style="width: 18px;"></i> ODS 10 — Redução das Desigualdades</div>
+                            <div class="card-desc">Enfrentamento direto do fosso digital geracional, promovendo autonomia cidadã e inclusão sem dependência de terceiros.</div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 4: A Solução e Interatividade
+            {
+                tag: "Solução Técnica & Demonstração",
+                icon: "smartphone",
+                body: `
+                    <h2 class="title-slide"><i data-lucide="layers" style="color: #38bdf8;"></i> A Cartilha Digital e Usabilidade Acessível</h2>
+                    <div class="grid-2">
+                        <div class="card-interactive">
+                            <div class="card-title"><i data-lucide="check-circle" style="color:#22c55e;"></i> Ergonomia Especializada (WCAG)</div>
+                            <div class="card-desc">Tipografia ampliada (19px+), alto contraste, botões táteis largos (mínimo 48px) e arquitetura leve sem necessidade de download em lojas de apps.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="card-title"><i data-lucide="eye" style="color:#38bdf8;"></i> Didática Visual "Real vs. Golpe"</div>
+                            <div class="card-desc">Comparações visuais instantâneas desmistificando o falso parente no WhatsApp, ligações falsas do banco e links enganosos.</div>
+                        </div>
+                    </div>
+
+                    <!-- Simulador Interativo dentro do Slide -->
+                    <div class="simulador-container">
+                        <div class="sim-pergunta">
+                            <i data-lucide="help-circle" style="width: 16px; vertical-align: middle; color: #f59e0b;"></i>
+                            <strong>Simulação Rápida:</strong> Você recebe mensagem de um número novo com a foto do seu sobrinho pedindo Pix urgente de R$ 350. O que fazer?
+                        </div>
+                        <div class="sim-botoes">
+                            <button class="btn-sim" onclick="testarGolpe(false)">A) Fazer o Pix rápido para ajudar</button>
+                            <button class="btn-sim" onclick="testarGolpe(true)">B) Telefonar para o número antigo dele</button>
+                        </div>
+                        <div id="simFeedback" class="sim-feedback"></div>
+                    </div>
+                `
+            },
+
+            // Slide 5: Campo e Feedbacks
+            {
+                tag: "Ações de Campo",
+                icon: "users",
+                body: `
+                    <h2 class="title-slide"><i data-lucide="map-pin" style="color: #38bdf8;"></i> Resultados Práticos e Escuta Comunitária</h2>
+                    <p class="lead-text">Intervenção presencial nos espaços parceiros com cartazes de QR Code e mediação direta:</p>
+                    <div class="grid-3">
+                        <div class="card-interactive" style="border-top: 4px solid #22c55e;">
+                            <div class="card-title" style="color: #4ade80;"><i data-lucide="thumbs-up"></i> O que Elogiaram</div>
+                            <div class="card-desc">
+                                • Letras grandes e legíveis sem forçar a vista.<br>
+                                • Exemplos visuais do WhatsApp fáceis de memorizar.<br>
+                                • Quiz rápido sem medo de errar ou travar o aparelho.
+                            </div>
+                        </div>
+                        <div class="card-interactive" style="border-top: 4px solid #ef4444;">
+                            <div class="card-title" style="color: #f87171;"><i data-lucide="alert-circle"></i> Dificuldades & Críticas</div>
+                            <div class="card-desc">
+                                • Celulares antigos sem leitor nativo de QR Code.<br>
+                                • Estranhamento com termos em inglês (ex.: <em>phishing</em>).<br>
+                                • Cansaço visual em seções com rolagem longa.
+                            </div>
+                        </div>
+                        <div class="card-interactive" style="border-top: 4px solid #f59e0b;">
+                            <div class="card-title" style="color: #fbbf24;"><i data-lucide="lightbulb"></i> Ideias para o Futuro</div>
+                            <div class="card-desc">
+                                • Inclusão de narração em áudio para baixa visão.<br>
+                                • Folheto de bolso dobrável para ter sempre por perto.<br>
+                                • Botão de discagem rápida para Disque 100 e bancos.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // Slide 6: Conclusões e Legado
+            {
+                tag: "Conclusão & Legado",
+                icon: "flag",
+                body: `
+                    <h2 class="title-slide"><i data-lucide="award" style="color: #38bdf8;"></i> Conclusão e Transformação Social</h2>
+                    <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%); border: 1px solid rgba(56, 189, 248, 0.3); padding: 22px; border-radius: 16px; margin-bottom: 20px;">
+                        <h3 style="font-size: 20px; color: #67e8f9; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="shield-check"></i> Cidadania e Proteção Permanente
+                        </h3>
+                        <p style="font-size: 16px; color: #f1f5f9; line-height: 1.5; margin: 0;">
+                            A intervenção demonstrou que a vulnerabilidade digital da terceira idade não decorre da recusa em aprender, mas da escassez de materiais pedagógicos acessíveis. O projeto entrega um recurso vivo, gratuito e permanente, blindando economias e resgatando a dignidade humana.
+                        </p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="card-interactive">
+                            <div class="card-title"><i data-lucide="terminal" style="color:#38bdf8;"></i> Formação Cidadã em TI</div>
+                            <div class="card-desc">Extrapolação das linhas de código para desenvolver sensibilidade social, escuta ativa e design empático.</div>
+                        </div>
+                        <div class="card-interactive">
+                            <div class="card-title"><i data-lucide="check-circle-2" style="color:#22c55e;"></i> Repositório Ativo</div>
+                            <div class="card-desc">Disponibilizado via GitHub Pages para que a comunidade continue consultando autonomamente.</div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let index = 0;
+
+        function updateDeck() {
+            const slide = deck[index];
+            document.getElementById('slideTagText').innerText = slide.tag;
+            document.getElementById('slideCounter').innerText = `Slide ${index + 1} de ${deck.length}`;
+            document.getElementById('slideBody').innerHTML = slide.body;
+
+            // Atualiza barra de progresso
+            const pct = ((index + 1) / deck.length) * 100;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+
+            // Botões de navegação
+            document.getElementById('btnPrev').disabled = index === 0;
+            document.getElementById('btnNext').disabled = index === deck.length - 1;
+
+            // Renderiza bolinhas indicadoras
+            const dots = document.getElementById('dotsContainer');
+            dots.innerHTML = '';
+            deck.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === index ? 'active' : ''}`;
+                dot.onclick = () => { index = i; updateDeck(); };
+                dots.appendChild(dot);
+            });
+
+            // Reinicializa os ícones do Lucide
+            lucide.createIcons();
+        }
+
+        function navigate(dir) {
+            index = Math.max(0, Math.min(deck.length - 1, index + dir));
+            updateDeck();
+        }
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') navigate(1);
+            if (e.key === 'ArrowLeft') navigate(-1);
+        });
+
+        // Simulação Interativa do Slide 4
+        function testarGolpe(correto) {
+            const fb = document.getElementById('simFeedback');
+            fb.style.display = 'block';
+            if (correto) {
+                fb.style.background = 'rgba(16, 185, 129, 0.2)';
+                fb.style.color = '#34d399';
+                fb.style.border = '1px solid #10b981';
+                fb.innerHTML = '🎉 <strong>Correto!</strong> Sempre ligue para o contato habitual antes de fazer qualquer transferência.';
+                lancarConfete();
+            } else {
+                fb.style.background = 'rgba(239, 68, 68, 0.2)';
+                fb.style.color = '#f87171';
+                fb.style.border = '1px solid #ef4444';
+                fb.innerHTML = '⚠️ <strong>Cuidado!</strong> Nunca envie dinheiro para números desconhecidos sem falar com o parente por voz antes!';
+            }
+        }
+
+        // Efeito de Confetes
+        function lancarConfete() {
+            confetti({
+                particleCount: 80,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Inicia
+        updateDeck();
+    </script>
+</body>
+</html>
